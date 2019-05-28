@@ -1,0 +1,36 @@
+import picamera, picamera.array
+import numpy as np
+from scipy import stats
+
+
+
+def center():
+    X=864
+    Y=480
+    XY=X*Y
+   
+
+
+    with picamera.PiCamera() as cam:
+        with picamera.array.PiRGBArray(cam, size=(X, Y)) as output:
+            cam.capture(output, 'rgb', resize=(X, Y))
+            img=output.array
+                
+
+    a=np.dot(img[...,:3], [.3,.6,.1])
+    
+    amax=np.max(a)
+    sdev=np.std(a)
+    amst=amax-sdev
+    
+    i, j = np.where(a > amst)
+
+    sxmin=np.min(x)
+    sxmax=np.max(x)
+    symin=np.min(y)
+    symax=np.max(y)
+
+    srx=(sxmax + sxmin) / 2
+    sry=(symax + symin) / 2
+    
+    return srx, sry,
